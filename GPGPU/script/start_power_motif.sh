@@ -4,7 +4,7 @@
 # suite 1: ALTIS
 # suite 2: npb
 
-python3 exp_power_motif.py --suite 2 --benchmark ft
+python3 exp_power_motif.py --suite 1 
 
 # sleep 3
 
