@@ -77,7 +77,7 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
     #     tmp_cpu = f"../data/{suite}_power_cap_res/small/tmp_cpu.csv"
     #     tmp_gpu = f"../data/{suite}_power_cap_res/small/tmp_gpu.csv"
 
-    def cap_exp(cpu_cap, gpu_freq, output_gpu_output):
+    def cap_exp(cpu_cap, gpu_freq, output_cpu, output_gpu):
         
         
         # Set CPU and GPU power caps and wait for them to take effect
