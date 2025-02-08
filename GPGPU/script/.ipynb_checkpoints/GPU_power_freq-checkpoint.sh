@@ -51,5 +51,7 @@ for FREQ in "${FREQS[@]}"; do
     fi
 done
 
+sudo nvidia-smi -rgc
+
 # echo "Best Frequency: $BEST_FREQ MHz with Max Power: $GLOBAL_MAX_POWER W"
 # echo "Best Frequency: $BEST_FREQ MHz, Max Power: $GLOBAL_MAX_POWER W" >> $OUTPUT_FILE
