@@ -41,10 +41,10 @@ altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
 
 
 gpu_caps = [250, 230, 210, 190, 170, 150, 130, 110]
-cpu_caps = [540, 300, 200, 180, 160, 140, 120, 100]
+cpu_caps = [540, 300, 200, 180, 160, 140, 120]
 
-gpu_caps = [250]
-cpu_caps = [540]
+# gpu_caps = [250]
+# cpu_caps = [540]
 
 
 # Setup environment

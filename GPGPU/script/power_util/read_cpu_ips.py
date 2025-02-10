@@ -6,15 +6,6 @@ import psutil
 import subprocess  
 import pandas as pd
 
-# CSV file to store the instruction count data
-CSV_FILE = "cpu_instructions.csv"
-
-# Write the header to the CSV file if it doesn't exist
-if not os.path.isfile(CSV_FILE):
-    with open(CSV_FILE, "w", newline="") as file:
-        writer = csv.writer(file)
-        writer.writerow(["Time", "IPS"])
-
 # Function to collect instruction count data
 def collect_instructions():
     output = subprocess.run(
@@ -42,7 +33,7 @@ def monitor_instructions(benchmark_pid, output_csv):
     
     with open(output_csv, "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["Elapsed Time (s)", "IPS"])
+        writer.writerow(["Time (s)", "IPS"])
         writer.writerows(performance_data)
         
 if __name__ == "__main__":
