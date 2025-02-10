@@ -17,13 +17,17 @@ if not os.path.isfile(CSV_FILE):
 
 # Function to collect instruction count data
 def collect_instructions():
-    output = subprocess.run(["perf", "stat", "-e", "instructions", "-a", "--field-separator=','", "-x", ",", "sleep", "1"],
-                            capture_output=True, text=True, stderr=subprocess.STDOUT)
-    lines = output.stdout.split("\n")
-    instructions = next((line.split(",")[0] for line in lines if "instructions" in line), "0")
-    instructions_per_second = float(instructions)
+    output = subprocess.run(
+        ["perf", "stat", "-e", "instructions", "-a", "--field-separator=','", "-x", ",", "sleep", "1"],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+    )
+    
+    lines = output.stderr.strip().split("\n")  # Read stderr and split lines
+    instructions_line = next((line for line in lines if "instructions" in line), None)
+    instructions = instructions_line.split(",")[0]  # Extract first value (instruction count)
 
-    return instructions_per_second
+    return instructions
+
 
 # Function to continuously monitor instructions per second
 def monitor_instructions(benchmark_pid, output_csv):

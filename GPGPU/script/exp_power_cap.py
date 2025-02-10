@@ -43,6 +43,8 @@ altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
 gpu_caps = [250, 230, 210, 190, 170, 150, 130, 110]
 cpu_caps = [540, 300, 200, 180, 160, 140, 120, 100]
 
+gpu_caps = [250]
+cpu_caps = [540]
 
 
 # Setup environment
@@ -60,7 +62,7 @@ def freq_low_range(power):
 
 def freq_high_range(power):
     """Calculate GPU frequency for power values in the range 1200 MHz - 1415 MHz."""
-    return int((power + 421.01) / 0.48)
+    return int((power + 429.2) / 0.48)
 
 
 gpu_frequencies = [
@@ -104,12 +106,12 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
 
 
          # monitor IPS
-         monitor_command_ips = f"echo 9900 | sudo -S {python_executable} {read_ips}  --output_csv {output_ips} --pid {benchmark_pid} "
+        monitor_command_ips = f"echo 9900 | sudo -S {python_executable} {read_cpu_ips}  --output_csv {output_ips} --pid {benchmark_pid} "
         monitor_process3 = subprocess.Popen(monitor_command_ips, shell=True, stdin=subprocess.PIPE, text=True)
 
 
         # monitor flops
-         monitor_command_flops = f"echo 9900 | sudo -S {python_executable} {read_flops}  --output_csv {output_flops} --pid {benchmark_pid} "
+        monitor_command_flops = f"echo 9900 | sudo -S {python_executable} {read_gpu_flops}  --output_csv {output_flops} --pid {benchmark_pid} "
         monitor_process4 = subprocess.Popen(monitor_command_flops, shell=True, stdin=subprocess.PIPE, text=True)
 
         
