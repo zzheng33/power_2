@@ -14,6 +14,8 @@ python_executable = subprocess.getoutput('which python3')  # Adjust based on you
 # scripts for CPU, GPU power monitoring
 read_cpu_power = "./power_util/read_cpu_power.py"
 read_gpu_power = "./power_util/read_gpu_power.py"
+read_gpu_flops = "./power_util/read_gpu_flops.py"
+read_cpu_ips = "./power_util/read_cpu_ips.py"
 
 # scritps for running various benchmarks
 run_altis = "./run_benchmark/run_altis.py"
@@ -69,15 +71,7 @@ gpu_frequencies = [
 
 def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
 
-    # store avg power data 
-    
-    tmp_cpu = f"../data/{suite}_power_cap_res/tmp_cpu.csv"
-    tmp_gpu = f"../data/{suite}_power_cap_res/tmp_gpu.csv"
-    # if size == 1:
-    #     tmp_cpu = f"../data/{suite}_power_cap_res/small/tmp_cpu.csv"
-    #     tmp_gpu = f"../data/{suite}_power_cap_res/small/tmp_gpu.csv"
-
-    def cap_exp(cpu_cap, gpu_freq, output_cpu, output_gpu):
+    def cap_exp(cpu_cap, gpu_freq, output_cpu_power, output_gpu_power,output_ips, output_flops):
         
         
         # Set CPU and GPU power caps and wait for them to take effect
@@ -100,62 +94,30 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
         benchmark_process = subprocess.Popen(run_benchmark_command, shell=True)
         benchmark_pid = benchmark_process.pid
 
-        # Start CPU power monitoring, passing the PID of the benchmark process
-        monitor_command_cpu = f"echo 9900 | sudo -S {python_executable} {read_cpu_power}  --output_csv {output_cpu} --pid {benchmark_pid} "
+        # monitor cpu power
+        monitor_command_cpu = f"echo 9900 | sudo -S {python_executable} {read_cpu_power}  --output_csv {output_cpu_power} --pid {benchmark_pid} "
         monitor_process1 = subprocess.Popen(monitor_command_cpu, shell=True, stdin=subprocess.PIPE, text=True)
 
-        if suite != "npb":
-            # Start GPU power monitoring, passing the PID of the benchmark process
-            monitor_command_gpu = f"echo 9900 | sudo -S {python_executable} {read_gpu_power}  --output_csv {output_gpu} --pid {benchmark_pid} "
-            monitor_process2 = subprocess.Popen(monitor_command_gpu, shell=True, stdin=subprocess.PIPE, text=True)
+        # monitor gpu power
+        monitor_command_gpu = f"echo 9900 | sudo -S {python_executable} {read_gpu_power}  --output_csv {output_gpu_power} --pid {benchmark_pid} "
+        monitor_process2 = subprocess.Popen(monitor_command_gpu, shell=True, stdin=subprocess.PIPE, text=True)
+
+
+         # monitor IPS
+         monitor_command_ips = f"echo 9900 | sudo -S {python_executable} {read_ips}  --output_csv {output_ips} --pid {benchmark_pid} "
+        monitor_process3 = subprocess.Popen(monitor_command_ips, shell=True, stdin=subprocess.PIPE, text=True)
+
+
+        # monitor flops
+         monitor_command_flops = f"echo 9900 | sudo -S {python_executable} {read_flops}  --output_csv {output_flops} --pid {benchmark_pid} "
+        monitor_process4 = subprocess.Popen(monitor_command_flops, shell=True, stdin=subprocess.PIPE, text=True)
+
         
             
         benchmark_process.wait()  # Wait for the benchmark to complete
-        # end = time.time()
-        # runtime = round(end - start, 2)
-    
-        # # Check if the output file exists to decide whether to write headers
-        # file_exists = os.path.isfile(output_file)
-        # monitor_process1.wait()
-        # if suite!="npb":
-        #     monitor_process2.wait()
-        
-        # # read CPU and GPU energy 
-        # tmp_cpu_df = pd.read_csv(tmp_cpu)
-        # cpu_e = tmp_cpu_df.iloc[0, 0]
-        # os.remove(tmp_cpu)
-        # if suite!="npb":
-        #     tmp_gpu_df = pd.read_csv(tmp_gpu)
-        #     gpu_e = tmp_gpu_df.iloc[0, 0]
-        #     os.remove(tmp_gpu)
-
-        # if suite=="npb":
-        #     gpu_cap = 0
-        #     gpu_e = 0
-        # # Write data to the output file
-        # with open(output_file, 'a', newline='') as file:  # Open file in append mode
-        #     writer = csv.writer(file)
-        #     if not file_exists:  # If file doesn't exist, write the header
-        #         writer.writerow(['CPU Cap (W)', 'GPU Cap (W)','CPU_E (J)','GPU_E (J)','Runtime (s)'])
-        #     # Write the new data row
-        #     writer.writerow([cpu_cap, gpu_cap, cpu_e, gpu_e, runtime])
-            
 
         
 ################## end helper function ####################
-    
-    # if not test:
-    #     output_cpu = f"../data/{suite}_power_cap_res/{benchmark}_cpu.csv"
-    #     output_gpu = f"../data/{suite}_power_cap_res/{benchmark}_gpu.csv"
-    #     # output_file_dual = f"../data/{suite}_power_cap_res/{benchmark}.csv"
-    #     # if size == 1:
-    #     #     output_file_cpu = f"../data/{suite}_power_cap_res/single_cap/small/{benchmark}_cap_cpu.csv"
-    #     #     output_file_gpu = f"../data/{suite}_power_cap_res/single_cap/small/{benchmark}_cap_gpu.csv"
-    #     #     output_file_dual = f"../data/{suite}_power_cap_res/{benchmark}_cap_dual.csv"
-      
-    # else:
-    #     output_file = f"../data/{suite}_test/{benchmark}_cap.csv"
-
     
    
     
@@ -176,9 +138,11 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
     for cpu_cap in cpu_caps:
         for i in range(len(gpu_frequencies)):
             gpu_cap = gpu_caps[i]
-            output_cpu = f"../data/{suite}_power_cap_res/{benchmark}/cpu_{cpu_cap}_{gpu_cap}.csv"
-            output_gpu = f"../data/{suite}_power_cap_res/{benchmark}/gpu_{cpu_cap}_{gpu_cap}.csv"
-            cap_exp(cpu_cap, gpu_frequencies[i], output_cpu, output_gpu)
+            output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
+            output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
+            output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
+            output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+            cap_exp(cpu_cap, gpu_frequencies[i], output_cpu_power, output_gpu_power,output_ips,output_flops)
 
 
 

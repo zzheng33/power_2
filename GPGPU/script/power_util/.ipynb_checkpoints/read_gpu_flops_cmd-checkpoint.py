@@ -32,7 +32,7 @@ def get_sm_clock():
 def get_dcgm_metrics():
     output = run_command("dcgmi dmon -e 1007,1006,1008,1002 -d 50 -c 5")
     lines = output.split("\n")
-    print(output)
+    # print(output)
 
     # Iterate through lines to find the first row with non-zero values
     for i in range(2, len(lines)):
