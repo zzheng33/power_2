@@ -2,6 +2,7 @@
 
 ## 1410
 
-freq=$1
-sudo nvidia-smi -ac 1215,$freq
+freq_max_limit=$1
+sudo nvidia-smi -lgc 0,$freq_max_limit
+
 
