@@ -29,6 +29,7 @@ install_dependence() {
     sudo pip install plotly
     sudo pip install kaggle
     sudo pip install tensorflow
+    sudo pip install tensorly
     sudo apt install git-lfs
     sudo git lfs install
 
