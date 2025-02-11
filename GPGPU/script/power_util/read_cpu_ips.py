@@ -39,6 +39,6 @@ def monitor_instructions(benchmark_pid, output_csv):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Monitor CPU instructions per second.')
     parser.add_argument('--pid', type=int, help='PID of the benchmark process', required=True)
-    parser.add_argument('--output_csv', type=str, help='Output CSV file path', default=CSV_FILE)
+    parser.add_argument('--output_csv', type=str, help='Output CSV file path')
     args = parser.parse_args()
     monitor_instructions(args.pid, args.output_csv)

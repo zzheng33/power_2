@@ -34,6 +34,7 @@ ecp_benchmarks = ['XSBench','miniGAN','CRADL','sw4lite','Laghos','bert','UNet','
 
 
 altis_benchmarks_0 = ['maxflops']
+altis_benchmarks_0 = []
 altis_benchmarks_1 = ['bfs','gemm','gups','pathfinder','sort']
 altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
                       'nw','particlefilter_float','particlefilter_naive','raytracing',
@@ -125,26 +126,34 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
     
     # # CPU cap only 
     # for cpu_cap in cpu_caps:
-    #     gpu_cap = max(gpu_caps)
-    #     cap_exp(cpu_cap, gpu_cap, output_file_cpu)
-       
+    #     gpu_cap = 250
+    #     output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
+    #     output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
+    #     output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
+    #     output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+    #     cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_flops)
 
-    # # GPU cap only
-    # for gpu_cap in gpu_caps:
-    #     cpu_cap = max(cpu_caps)
-    #     cap_exp(cpu_cap, gpu_cap, output_file_gpu)
+    for i in range(len(gpu_frequencies)):
+        gpu_cap = gpu_caps[i]
+        cpu_cap = 540
+        output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
+        output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
+        output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
+        output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+        cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_flops)
+
         
 
     
     # dual cap
-    for cpu_cap in cpu_caps:
-        for i in range(len(gpu_frequencies)):
-            gpu_cap = gpu_caps[i]
-            output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
-            output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
-            output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
-            output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
-            cap_exp(cpu_cap, gpu_frequencies[i], output_cpu_power, output_gpu_power,output_ips,output_flops)
+    # for cpu_cap in cpu_caps:
+    #     for i in range(len(gpu_frequencies)):
+    #         gpu_cap = gpu_caps[i]
+    #         output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
+    #         output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
+    #         output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
+    #         output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+    #         cap_exp(cpu_cap, gpu_frequencies[i], output_cpu_power, output_gpu_power,output_ips,output_flops)
 
 
 
