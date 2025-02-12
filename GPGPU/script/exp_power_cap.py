@@ -33,16 +33,15 @@ ecp_benchmarks = ['XSBench','miniGAN','CRADL','sw4lite','Laghos','bert','UNet','
 
 
 
-altis_benchmarks_0 = ['maxflops']
 altis_benchmarks_0 = []
-altis_benchmarks_1 = ['bfs','gemm','gups','pathfinder','sort']
-altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
-                      'nw','particlefilter_float','particlefilter_naive','raytracing',
-                      'srad','where']
+altis_benchmarks_1 = ['gemm','gups']
+altis_benchmarks_2 = ['cfd_double','fdtd2d','kmeans','lavamd',
+                      'particlefilter_float','particlefilter_naive','raytracing',
+                      'srad']
 
 
-gpu_caps = [250, 230, 210, 190, 170, 150, 130, 110]
-cpu_caps = [540, 300, 200, 180, 160, 140, 120]
+gpu_caps = [250, 230, 210, 190, 170, 150]
+cpu_caps = [220, 220, 180, 160, 140, 120]
 
 # gpu_caps = [250]
 # cpu_caps = [540]
@@ -78,9 +77,9 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
         
         
         # Set CPU and GPU power caps and wait for them to take effect
-        subprocess.run([f"./power_util/gpu_fs.sh {gpu_freq}"], shell=True)
+        # subprocess.run([f"./power_util/gpu_fs.sh {gpu_freq}"], shell=True)
         subprocess.run([f"./power_util/cpu_cap.sh {cpu_cap}"], shell=True)
-        # subprocess.run([f"./power_util/gpu_cap.sh {gpu_cap}"], shell=True)
+        subprocess.run([f"./power_util/gpu_cap.sh {gpu_cap}"], shell=True)
         
         time.sleep(1)  # Wait for the power caps to take effect
     
@@ -133,14 +132,14 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
     #     output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
     #     cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_flops)
 
-    for i in range(len(gpu_frequencies)):
-        gpu_cap = gpu_caps[i]
-        cpu_cap = 540
-        output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
-        output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
-        output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
-        output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
-        cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_flops)
+    # for i in range(len(gpu_frequencies)):
+    #     gpu_cap = gpu_caps[i]
+    #     cpu_cap = 540
+    #     output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
+    #     output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
+    #     output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
+    #     output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+    #     cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_flops)
 
         
 
@@ -155,11 +154,19 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
     #         output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
     #         cap_exp(cpu_cap, gpu_frequencies[i], output_cpu_power, output_gpu_power,output_ips,output_flops)
 
+    for cpu_cap in cpu_caps:
+        for gpu_cap in gpu_caps:
+            output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
+            output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
+            output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
+            output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+            cap_exp(cpu_cap, gpu_cap, output_cpu_power, output_gpu_power,output_ips,output_flops)
 
 
-    subprocess.run([f"./power_util/cpu_cap.sh 550"], shell=True)
-    # subprocess.run([f"./power_util/gpu_cap.sh 250"], shell=True)
-    subprocess.run([f"./power_util/gpu_fs.sh 1410"], shell=True)
+
+    subprocess.run([f"./power_util/cpu_cap.sh 540"], shell=True)
+    subprocess.run([f"./power_util/gpu_cap.sh 250"], shell=True)
+    # subprocess.run([f"./power_util/gpu_fs.sh 1410"], shell=True)
 
 
 if __name__ == "__main__":
