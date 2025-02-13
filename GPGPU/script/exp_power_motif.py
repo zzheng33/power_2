@@ -50,7 +50,6 @@ memory_throughput_ts = 40000;
 # ecp_benchmarks = ['FT', 'CG', 'LULESH', 'Nekbone', 'AMG2013', 'miniFE']
 
 npb_benchmarks = ['bt','cg','ep','ft','is','lu','mg','sp','ua']
-npb_benchmarks = ['sp','ua']
 
 # altis_benchmarks_0 = ['busspeeddownload','busspeedreadback','maxflops']
 # altis_benchmarks_1 = ['bfs','gemm','gups','pathfinder','sort']
@@ -67,6 +66,8 @@ altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
 ecp_benchmarks = ['miniGAN','CRADL','sw4lite','Laghos', 'lammps', 'UNet', 'Resnet50','bert_large','gromacs']
 
 # ecp_benchmarks = ['miniGAN','CRADL','sw4lite','Laghos','UNet']
+
+ecp_benchmarks = ['miniFE','LULESH','Nekbone']
 
 # Setup environment
 modprobe_command = "sudo modprobe msr"
