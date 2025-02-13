@@ -1,8 +1,6 @@
 #!/bin/bash
 
 home_dir=$HOME
-# benchmark_dir="${home_dir}/benchmark/CPU-only/miniFE/openmp/src/"
-benchmark_dir="${home_dir}/benchmark/ECP/miniFE/openmp/src/"
 benchmark_dir="/home/cc/benchmark/ECP/CPU-only/miniFE/openmp/src/"
 cd ${benchmark_dir}
 # mpirun -n 16 --use-hwthread-cpus ./miniFE.x  -nx 300 -ny 300 -nz 300
