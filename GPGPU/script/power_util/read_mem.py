@@ -49,7 +49,7 @@ def monitor_imc_throughput(benchmark_pid, output_csv, interval=1.0):
         total_mb = total_mib * 1.04858  # Convert MiB to MB
         throughput_data.append([elapsed_time, total_mb])
 
-        print(f"Memory Throughput: {total_mb:.2f} MB/s")
+        # print(f"Memory Throughput: {total_mb:.2f} MB/s")
         
     os.makedirs(os.path.dirname(output_csv), exist_ok=True)
     with open(output_csv, 'w', newline='') as file:

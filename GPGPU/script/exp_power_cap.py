@@ -48,7 +48,7 @@ altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
 
 
 gpu_caps = [250, 230, 210, 190, 170, 150]
-cpu_caps = [200, 190, 180, 170,160,150 140,130, 120,110]
+cpu_caps = [200, 190, 180, 170,160,150, 140,130, 120,110]
 
 # gpu_caps = [250]
 # cpu_caps = [540]

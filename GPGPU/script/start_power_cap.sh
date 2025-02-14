@@ -5,8 +5,8 @@
 # suite 2: npb
 
 python3 exp_power_cap.py --suite 1 
-
-./power_util/set_uncore_freq.sh 2.2 2.2
+sleep 1
+# ./power_util/set_uncore_freq.sh 2.2 2.2
 
 TARGET_DIR="../data/"
 
