@@ -41,6 +41,7 @@ ecp_benchmarks = ['XSBench','miniGAN','CRADL','sw4lite','Laghos','bert','UNet','
 #                       'srad']
 
 altis_benchmarks_0 = ['maxflops']
+altis_benchmarks_0 = []
 altis_benchmarks_1 = ['bfs','gemm','gups','pathfinder','sort']
 altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
                       'nw','particlefilter_float','particlefilter_naive','raytracing',
@@ -48,7 +49,7 @@ altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
 
 
 gpu_caps = [250, 230, 210, 190, 170, 150]
-cpu_caps = [200, 190, 180, 170,160,150, 140,130, 120,110]
+cpu_caps = [200, 190, 180, 170,160,150, 140,130, 120]
 
 # gpu_caps = [250]
 # cpu_caps = [540]
