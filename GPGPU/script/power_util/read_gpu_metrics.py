@@ -62,7 +62,7 @@ def calculate_flops(sm_clock_hz, fp_active, sm_active, precision="FP32"):
     return flops / 1e12  # Convert to TFLOPS
 
 # Function to monitor GPU performance
-def monitor_gpu_performance(benchmark_pid, output_csv, interval=0):
+def monitor_gpu_performance(benchmark_pid, output_csv, interval=0.5):
     start_time = time.time()
     performance_data = []
     
