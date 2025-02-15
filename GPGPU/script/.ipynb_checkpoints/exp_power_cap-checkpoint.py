@@ -14,7 +14,7 @@ python_executable = subprocess.getoutput('which python3')  # Adjust based on you
 # scripts for CPU, GPU power monitoring
 read_cpu_power = "./power_util/read_cpu_power.py"
 read_gpu_power = "./power_util/read_gpu_power.py"
-read_gpu_flops = "./power_util/read_gpu_flops.py"
+read_gpu_flops = "./power_util/read_gpu_metrics.py"
 read_cpu_ips = "./power_util/read_cpu_ips.py"
 read_mem = "./power_util/read_mem.py"
 
@@ -47,11 +47,11 @@ altis_benchmarks_2 = ['cfd','cfd_double','fdtd2d','kmeans','lavamd',
                       'srad','where']
 
 
-gpu_caps = [250, 230, 210, 190, 170, 150]
-cpu_caps = [200, 190, 180, 170,160,150, 140,130, 120]
+gpu_caps = [250, 240, 230, 220, 210, 200, 190, 180, 170, 160, 150]
+cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 
-# gpu_caps = [250]
-# cpu_caps = [540]
+gpu_caps = [250]
+cpu_caps = [540]
 
 
 # Setup environment
@@ -80,7 +80,7 @@ gpu_frequencies = [
 
 def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
 
-    def cap_exp(cpu_cap, gpu_freq, output_cpu_power, output_gpu_power,output_ips, output_flops,output_mem):
+    def cap_exp(cpu_cap, gpu_freq, output_cpu_power, output_gpu_power,output_ips, output_gpu_metrics,output_mem):
         
         
         # Set CPU and GPU power caps and wait for them to take effect
@@ -116,11 +116,12 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
         monitor_command_ips = f"echo 9900 | sudo -S {python_executable} {read_cpu_ips}  --output_csv {output_ips} --pid {benchmark_pid} "
         monitor_process3 = subprocess.Popen(monitor_command_ips, shell=True, stdin=subprocess.PIPE, text=True)
 
-        # # monitor flops
-        # monitor_command_flops = f"echo 9900 | sudo -S {python_executable} {read_gpu_flops}  --output_csv {output_flops} --pid {benchmark_pid} "
-        # monitor_process4 = subprocess.Popen(monitor_command_flops, shell=True, stdin=subprocess.PIPE, text=True)
+        # monitor flops
+        monitor_command_flops = f"echo 9900 | sudo -S {python_executable} {read_gpu_metrics}  --output_csv {output_gpu_metrics} --pid {benchmark_pid} "
+        monitor_process4 = subprocess.Popen(monitor_command_flops, shell=True, stdin=subprocess.PIPE, text=True)
 
-
+        
+        # read mem
         monitor_command_mem = f"echo 9900 | sudo -S {python_executable} {read_mem}  --output_csv {output_mem} --pid {benchmark_pid} "
         monitor_process5 = subprocess.Popen(monitor_command_mem, shell=True, stdin=subprocess.PIPE, text=True)
 
@@ -139,9 +140,9 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
         output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
         output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
         output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
-        output_flops = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_flops.csv"
+        output_gpu_metrics = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_metrics.csv"
         output_mem = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_mem.csv"
-        cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_flops,output_mem)
+        cap_exp(cpu_cap, gpu_frequencies[0], output_cpu_power, output_gpu_power,output_ips,output_gpu_metrics,output_mem)
 
     
 
