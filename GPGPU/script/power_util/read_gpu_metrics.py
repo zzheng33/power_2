@@ -26,7 +26,7 @@ def run_command(command):
 # Function to get DCGM metrics: fp32_active, fp64_active, fp16_active, sm_active
 def get_dcgm_metrics():
     output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 500 -c 1")
-    print(output)
+    # print(output)
     lines = output.split("\n")
     fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power = 0,0,0,0,0,0
     for i in range(2, len(lines)):
