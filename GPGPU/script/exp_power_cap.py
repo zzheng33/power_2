@@ -146,7 +146,7 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
 
 
     for gpu_cap in gpu_caps:
-        cpu_cap = 190
+        cpu_cap = 540
         output_cpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_power.csv"
         output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
         output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
