@@ -67,7 +67,7 @@ ecp_benchmarks = ['miniGAN','CRADL','sw4lite','Laghos', 'lammps', 'UNet', 'Resne
 
 # ecp_benchmarks = ['miniGAN','CRADL','sw4lite','Laghos','UNet']
 
-ecp_benchmarks = ['miniFE','LULESH','Nekbone']
+# ecp_benchmarks = ['miniFE','LULESH','Nekbone']
 
 # Setup environment
 modprobe_command = "sudo modprobe msr"

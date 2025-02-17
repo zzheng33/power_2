@@ -166,7 +166,7 @@ def monitor_power(benchmark_pid, output_csv, avg, interval=0.1):
         # Calculate individual power for DRAM or any other component if necessary
         # total_dram_energy = sum(energy_consumed[key] for key in energy_consumed if 'dram_socket' in key)
         # Convert energy to power
-        cpu_power = total_cpu_energy / interval
+        cpu_power = int(total_cpu_energy / interval)
         # dram_power = total_dram_energy / interval
 
         power_data.append([elapsed_time, cpu_power])
