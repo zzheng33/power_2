@@ -25,10 +25,10 @@ def run_command(command):
 
 # Function to get DCGM metrics: fp32_active, fp64_active, fp16_active, sm_active
 def get_dcgm_metrics():
-    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 500 -c 2")
+    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155,1005 -d 500 -c 2")
     # print(output)
     lines = output.split("\n")
-    fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power = 0,0,0,0,0,0
+    fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power, dram_active = 0, 0,0,0,0,0,0
     for i in range(2, len(lines)):
         values = lines[i].split()
         
@@ -38,11 +38,12 @@ def get_dcgm_metrics():
         sm_active = float(values[5])
         sm_clock = float(values[6])
         power = float(values[7])
+        dram_active = float(values[8])
         
         if (fp32_active > 0 or fp64_active > 0 or fp16_active > 0) and sm_active > 0:
-            return fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power
+            return fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power, dram_active
     
-    return fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power
+    return fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power, dram_active
 
 # Function to calculate real-time FLOPS
 def calculate_flops(sm_clock_hz, fp_active, sm_active, precision="FP32"):
@@ -70,18 +71,18 @@ def monitor_gpu_performance(benchmark_pid, output_csv, interval=0.1):
         time.sleep(interval)
         elapsed_time = time.time() - start_time
         # sm_clock_hz = get_sm_clock()
-        fp16_active, fp32_active, fp64_active, sm_active, sm_clock_hz, power = get_dcgm_metrics()
+        fp16_active, fp32_active, fp64_active, sm_active, sm_clock_hz, power, dram_active = get_dcgm_metrics()
 
         fp32_flops = calculate_flops(sm_clock_hz, fp32_active, sm_active, precision="FP32")
         fp64_flops = calculate_flops(sm_clock_hz, fp64_active, sm_active, precision="FP64")
         fp16_flops = calculate_flops(sm_clock_hz, fp16_active, sm_active, precision="FP16")
         
-        row = [elapsed_time, sm_clock_hz  if sm_clock_hz else "N/A", sm_active, fp16_flops, fp32_flops, fp64_flops, power]
+        row = [elapsed_time, sm_clock_hz, dram_active, fp16_active, fp32_active, fp64_active, fp16_flops, fp32_flops, fp64_flops, power]
         performance_data.append(row)
     
     with open(output_csv, 'w', newline='') as file:
         writer = csv.writer(file)
-        headers = ['Time (s)', 'SM Clock (MHz)', 'SM Active', 'FP16 FLOPS (TFLOPS)','FP32 FLOPS (TFLOPS)', 'FP64 FLOPS (TFLOPS)', 'Power (W)']
+        headers = ['Time (s)', 'SM Clock (MHz)', 'DRAM Active', 'FP16 Active', 'FP32 Active', 'FP64 Active', 'FP16 (T)','FP32 (T)', 'FP64 (T)', 'Power (W)']
         writer.writerow(headers)
         writer.writerows(performance_data)
 
