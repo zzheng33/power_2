@@ -25,7 +25,7 @@ def run_command(command):
 
 # Function to get DCGM metrics: fp32_active, fp64_active, fp16_active, sm_active
 def get_dcgm_metrics():
-    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155,1005 -d 500 -c 2")
+    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155,1005 -d 300 -c 3")
     # print(output)
     lines = output.split("\n")
     fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power, dram_active = 0,0,0,0,0,0,0
@@ -73,16 +73,16 @@ def monitor_gpu_performance(benchmark_pid, output_csv, interval=0.1):
         # sm_clock_hz = get_sm_clock()
         fp16_active, fp32_active, fp64_active, sm_active, sm_clock_hz, power, dram_active = get_dcgm_metrics()
 
-        fp32_flops = calculate_flops(sm_clock_hz, fp32_active, sm_active, precision="FP32")
-        fp64_flops = calculate_flops(sm_clock_hz, fp64_active, sm_active, precision="FP64")
-        fp16_flops = calculate_flops(sm_clock_hz, fp16_active, sm_active, precision="FP16")
+        # fp32_flops = calculate_flops(sm_clock_hz, fp32_active, sm_active, precision="FP32")
+        # fp64_flops = calculate_flops(sm_clock_hz, fp64_active, sm_active, precision="FP64")
+        # fp16_flops = calculate_flops(sm_clock_hz, fp16_active, sm_active, precision="FP16")
         
-        row = [elapsed_time, sm_clock_hz, dram_active, fp16_active, fp32_active, fp64_active, fp16_flops, fp32_flops, fp64_flops, int(power)]
+        row = [elapsed_time, sm_clock_hz, dram_active, fp16_active, fp32_active, fp64_active, int(power)]
         performance_data.append(row)
     
     with open(output_csv, 'w', newline='') as file:
         writer = csv.writer(file)
-        headers = ['Time (s)', 'SM Clock (MHz)', 'DRAM Active', 'FP16 Active', 'FP32 Active', 'FP64 Active', 'FP16 (T)','FP32 (T)', 'FP64 (T)', 'Power (W)']
+        headers = ['Time (s)', 'SM Clock (MHz)', 'DRAM Active', 'FP16 Active', 'FP32 Active', 'FP64 Active', 'Power (W)']
         writer.writerow(headers)
         writer.writerows(performance_data)
 

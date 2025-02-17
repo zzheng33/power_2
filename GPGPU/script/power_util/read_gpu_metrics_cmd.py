@@ -30,8 +30,8 @@ def get_sm_clock():
 
 # Function to get DCGM metrics: fp32_active, fp64_active, fp16_active, sm_active
 def get_dcgm_metrics():
-    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 500 -c 2")
-    print(output)
+    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 300 -c 3")
+    # print(output)
     lines = output.split("\n")
     fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power = 0,0,0,0,0,0
     for i in range(2, len(lines)):
@@ -88,7 +88,7 @@ try:
         fp16_flops = calculate_flops(sm_clock_hz, fp16_active, sm_active, precision="FP16")
 
         # Print output
-        # print(f"[{timestamp}] SM Clock: {sm_clock_hz / 1e6 if sm_clock_hz else 'N/A'} MHz | FP32: {fp32_flops:.2f} TFLOPS | FP64: {fp64_flops:.2f} TFLOPS | FP16: {fp16_flops:.2f} TFLOPS")
+        print(f"[{timestamp}] SM Clock: {sm_clock_hz / 1e6 if sm_clock_hz else 'N/A'} MHz | FP32: {fp32_flops:.2f} TFLOPS | FP64: {fp64_flops:.2f} TFLOPS | FP16: {fp16_flops:.2f} TFLOPS")
 
         # Save to CSV
         with open(csv_filename, "a", newline="") as file:
