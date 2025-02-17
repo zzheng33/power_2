@@ -30,24 +30,24 @@ def get_sm_clock():
 
 # Function to get DCGM metrics: fp32_active, fp64_active, fp16_active, sm_active
 def get_dcgm_metrics():
-    output = run_command("dcgmi dmon -e 1007,1006,1008,1002 -d 50 -c 5")
+    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 500 -c 2")
+    print(output)
     lines = output.split("\n")
-    # print(output)
-
-    # Iterate through lines to find the first row with non-zero values
+    fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power = 0,0,0,0,0,0
     for i in range(2, len(lines)):
-        line = lines[i]
-        values = line.split()
-        fp32_active = float(values[2])  # FP32 utilization
-        fp64_active = float(values[3])  # FP64 utilization
-        fp16_active = float(values[4])  # FP16 utilization
-        sm_active = float(values[5])    # SM utilization
-
+        values = lines[i].split()
+        
+        fp16_active = float(values[2])
+        fp32_active = float(values[3])
+        fp64_active = float(values[4])
+        sm_active = float(values[5])
+        sm_clock = float(values[6])
+        power = float(values[7])
+        
         if (fp32_active > 0 or fp64_active > 0 or fp16_active > 0) and sm_active > 0:
             return fp32_active, fp64_active, fp16_active, sm_active
-
-
-    return 0, 0, 0, 0  # If all values are zero, return zeros
+    
+    return fp32_active, fp64_active, fp16_active, sm_active
 
 # Function to calculate real-time FLOPS
 def calculate_flops(sm_clock_hz, fp_active, sm_active, precision="FP32"):
@@ -88,14 +88,14 @@ try:
         fp16_flops = calculate_flops(sm_clock_hz, fp16_active, sm_active, precision="FP16")
 
         # Print output
-        print(f"[{timestamp}] SM Clock: {sm_clock_hz / 1e6 if sm_clock_hz else 'N/A'} MHz | FP32: {fp32_flops:.2f} TFLOPS | FP64: {fp64_flops:.2f} TFLOPS | FP16: {fp16_flops:.2f} TFLOPS")
+        # print(f"[{timestamp}] SM Clock: {sm_clock_hz / 1e6 if sm_clock_hz else 'N/A'} MHz | FP32: {fp32_flops:.2f} TFLOPS | FP64: {fp64_flops:.2f} TFLOPS | FP16: {fp16_flops:.2f} TFLOPS")
 
         # Save to CSV
         with open(csv_filename, "a", newline="") as file:
             writer = csv.writer(file)
             writer.writerow([timestamp, sm_clock_hz / 1e6 if sm_clock_hz else "N/A", fp32_active, fp64_active, fp16_active, sm_active, fp32_flops, fp64_flops, fp16_flops])
 
-        time.sleep(0.2)  # Update every 0.5 seconds
+        time.sleep(0.1)  # Update every 0.5 seconds
 
 except KeyboardInterrupt:
     print("\nMonitoring stopped. Data saved to", csv_filename)

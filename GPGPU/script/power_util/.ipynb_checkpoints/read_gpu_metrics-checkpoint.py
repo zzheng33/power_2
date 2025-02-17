@@ -25,7 +25,7 @@ def run_command(command):
 
 # Function to get DCGM metrics: fp32_active, fp64_active, fp16_active, sm_active
 def get_dcgm_metrics():
-    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 500 -c 1")
+    output = run_command("dcgmi dmon -e 1008,1007,1006,1002,100,155 -d 500 -c 2")
     # print(output)
     lines = output.split("\n")
     fp16_active, fp32_active, fp64_active, sm_active, sm_clock, power = 0,0,0,0,0,0
@@ -62,7 +62,7 @@ def calculate_flops(sm_clock_hz, fp_active, sm_active, precision="FP32"):
     return flops / 1e12  # Convert to TFLOPS
 
 # Function to monitor GPU performance
-def monitor_gpu_performance(benchmark_pid, output_csv, interval=0.5):
+def monitor_gpu_performance(benchmark_pid, output_csv, interval=0.1):
     start_time = time.time()
     performance_data = []
     
