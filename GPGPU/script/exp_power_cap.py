@@ -27,7 +27,7 @@ run_npb = "./run_benchmark/run_npb.py"
 # Define your benchmarks, for testing replace the list with just ['FT'] for example
 # ecp_benchmarks = ['FT', 'CG', 'LULESH', 'Nekbone', 'AMG2013', 'miniFE']
 ecp_benchmarks = ['XSBench','miniGAN','CRADL','sw4lite','Laghos','bert','UNet','Resnet50','lammps']
-
+ecp_benchmarks = ['CRADL','bert','UNet']
 
 # npb_benchmarks = ['bt','cg','ep','ft','is','lu','mg','sp','ua','miniFE']
 # npb_benchmarks = ['is']
@@ -56,8 +56,8 @@ cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 # cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 
 
-# gpu_caps = [250]
-# cpu_caps = [200]
+gpu_caps = [250]
+cpu_caps = [200]
 
 
 # Setup environment
