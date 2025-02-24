@@ -48,7 +48,7 @@ def read_energy(file_path):
         print(f"Error reading the file {file_path}: {e}")
         return 0
 
-def monitor_power(benchmark_pid, output_csv, avg, interval=0.1):
+def monitor_power(benchmark_pid, output_csv, avg, interval=0.5):
     """Monitor power consumption for CPU sockets and DRAM."""
     start_time = time.time()
     initial_values = {key: read_energy(path) for key, path in ENERGY_FILES.items()}
