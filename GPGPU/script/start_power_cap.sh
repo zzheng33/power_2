@@ -4,8 +4,7 @@
 # suite 1: ALTIS
 # suite 2: npb
 
-python3 exp_power_cap.py --suite 0 --benchmark bert
-
+python3 exp_power_cap.py --suite 0 
 sleep 3
 
 # ./power_util/set_uncore_freq.sh 2.2 2.2

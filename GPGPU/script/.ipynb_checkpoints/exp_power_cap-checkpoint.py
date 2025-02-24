@@ -26,9 +26,9 @@ run_npb = "./run_benchmark/run_npb.py"
 
 # Define your benchmarks, for testing replace the list with just ['FT'] for example
 # ecp_benchmarks = ['FT', 'CG', 'LULESH', 'Nekbone', 'AMG2013', 'miniFE']
-ecp_benchmarks = ['XSBench','miniGAN','CRADL','sw4lite','Laghos','bert','UNet','Resnet50','lammps']
-ecp_benchmarks = ['CRADL','bert','UNet','Resnet50']
-
+ecp_benchmarks = ['XSBench','miniGAN','CRADL','sw4lite','Laghos','bert_large','UNet','Resnet50','lammps']
+ecp_benchmarks = ['CRADL','bert_large','UNet','Resnet50']
+ecp_benchmarks = ['bert_large']
 # npb_benchmarks = ['bt','cg','ep','ft','is','lu','mg','sp','ua','miniFE']
 # npb_benchmarks = ['is']
 
