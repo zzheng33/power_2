@@ -231,7 +231,7 @@ if __name__ == "__main__":
         benchmark_script_dir = f"power/GPGPU/script/run_benchmark/ecp_script"
         # single test
         if benchmark:
-            run_benchmark(benchmark_script_dir, benchmark,"ecp",test)
+            run_benchmark(benchmark_script_dir, benchmark,"ecp",test,benchmark_size,cap_type)
         # run all ecp benchmarks
         else:
             for benchmark in ecp_benchmarks:
