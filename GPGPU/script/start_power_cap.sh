@@ -4,7 +4,7 @@
 # suite 1: ALTIS
 # suite 2: npb
 
-python3 exp_power_cap.py --suite 0 --benchmark bert
+python3 exp_power_cap.py --suite 0 --benchmark bert_large
 
 sleep 3
 
