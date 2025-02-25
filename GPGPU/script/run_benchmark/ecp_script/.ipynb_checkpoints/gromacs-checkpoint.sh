@@ -9,6 +9,7 @@ export GMX_GPU_DD_COMMS=true
 export GMX_GPU_PME_PP_COMMS=true
 export GMX_FORCE_UPDATE_DEFAULT_GPU=true
 export OMP_NUM_THREADS=64  # Optimize thread usage for MPI
+export GMX_MAXBACKUP=-1
 # export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 # # Step 1: Run energy minimization (on CPU)
