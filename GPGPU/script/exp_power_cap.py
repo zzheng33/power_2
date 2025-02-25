@@ -56,8 +56,8 @@ cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 # cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 
 
-gpu_caps = [250]
-cpu_caps = [200]
+# gpu_caps = [250]
+# cpu_caps = [200]
 
 
 # Setup environment
