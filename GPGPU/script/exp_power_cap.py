@@ -56,8 +56,8 @@ cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 # cpu_caps = [200, 190, 180, 170, 160, 150, 140, 130, 120]
 
 
-# gpu_caps = [250]
-# cpu_caps = [200]
+gpu_caps = [150]
+cpu_caps = [120]
 
 
 # Setup environment
@@ -134,10 +134,6 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
         monitor_command_gpu_metrics = f"echo 9900 | sudo -S {python_executable} {read_gpu_metrics}  --output_csv {output_gpu_metrics} --pid {benchmark_pid} "
         monitor_process4 = subprocess.Popen(monitor_command_gpu_metrics, shell=True, stdin=subprocess.PIPE, text=True)
 
-        
-       
-
-        
             
         benchmark_process.wait()  # Wait for the benchmark to complete
 
@@ -198,7 +194,7 @@ def run_benchmark(benchmark_script_dir,benchmark, suite, test, size,cap_type):
             output_gpu_power = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_power.csv"
             output_ips = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_ips.csv"
             output_mem = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_mem.csv"
-            output_gpu_metrics = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_metrics.csv"
+            output_gpu_metrics = f"/home/cc/power/GPGPU/data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_gpu_metrics.csv"
             output_cpu_metrics = f"../data/{suite}_power_cap_res/{benchmark}/{cpu_cap}_{gpu_cap}_cpu_metrics.csv"
             cap_exp(cpu_cap, gpu_cap, output_cpu_power, output_gpu_power,output_ips,output_gpu_metrics,output_mem,output_cpu_metrics)
 
