@@ -4,7 +4,7 @@
 # suite 1: ALTIS
 # suite 2: npb
 
-python3 exp_power_cap.py --suite 0 --benchmark gromacs
+python3 exp_power_cap.py --suite 0 --benchmark XSBench
 
 sleep 3
 
