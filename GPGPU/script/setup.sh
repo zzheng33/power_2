@@ -28,6 +28,7 @@ install_dependence() {
     sudo pip install scikit-learn
     sudo pip install scipy
     sudo pip install plotly
+    sudo pip install seaborn
     sudo pip install kaggle
     sudo pip install tensorflow
     sudo pip install tensorly
