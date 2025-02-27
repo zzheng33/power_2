@@ -9,6 +9,7 @@ for i in {1..5}; do
     python3 exp_power_cap.py --suite 0
 
     sleep 5  # Wait before processing
+    sudo chown -R cc:cc ../data/
 
     # Create run directory
     run_dir="run${i}"
@@ -23,7 +24,7 @@ for i in {1..5}; do
 done
 
 # Change ownership of data directory
-sudo chown -R cc:cc ../data/
+# sudo chown -R cc:cc ../data/
 
 # echo "All experiments completed and files organized."
 
