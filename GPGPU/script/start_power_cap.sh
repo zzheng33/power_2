@@ -3,6 +3,9 @@
 # List of benchmark names
 ecp_benchmarks=("XSBench" "miniGAN" "CRADL" "sw4lite" "Laghos" "bert_large" "UNet" "Resnet50" "lammps" "gromacs")
 
+# Base directory where benchmarks are stored
+base_dir="./data/ecp_power_cap_res"
+
 # Run exp_power_cap.py 5 times
 for i in {1..5}; do
     echo "Running experiment $i..."
@@ -11,22 +14,19 @@ for i in {1..5}; do
     sleep 5  # Wait before processing
     sudo chown -R cc:cc ../data/
 
-    # Create run directory
-    run_dir="run${i}"
+    # Create run directory inside ./data/ecp_power_cap_res/
+    run_dir="$base_dir/run${i}"
     mkdir -p "$run_dir"
 
-    # Move benchmark folders to run directory
+    # Move benchmark folders from ./data/ecp_power_cap_res/ to runX
     for benchmark in "${ecp_benchmarks[@]}"; do
-        if [ -d "$benchmark" ]; then
-            mv "$benchmark" "$run_dir/"
+        if [ -d "$base_dir/$benchmark" ]; then
+            mv "$base_dir/$benchmark" "$run_dir/"
         fi
     done
 done
 
-# Change ownership of data directory
-# sudo chown -R cc:cc ../data/
-
-# echo "All experiments completed and files organized."
+echo "All experiments completed and files organized in $base_dir."
 
 
 
