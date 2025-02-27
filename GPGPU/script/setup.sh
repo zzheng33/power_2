@@ -284,6 +284,10 @@ setup_cudnn() {
     sudo apt-get -y install cudnn
 }
 
+#NAMD
+# wget https://www.ks.uiuc.edu/Research/namd/utilities/stmv.tar.gz
+# wget http://www.ks.uiuc.edu/Research/namd/2.13/benchmarks/stmv_nve_cuda.namd
+
 setup_DCGM
 install_dependence
 load_benchmark
